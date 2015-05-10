@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>todoアプリ</title>
+</head>
+
+<body ng-app="App">
+  <!-- angularは、このページにappもジュールをロードするようになる -->
+
+  <div ng-controller="MainController">
+    <!-- ngControllerディレクティヴの使用を宣言 -->
+    <!-- app.jsのMainControllerを使用 -->
+
+    <form ng-submit="addTodo()">
+      <!-- フォームが送信された時、addTodoが実行されるように-->
+      <!-- form要素に対して、ngSubmitディレクティブの使用 -->
+      <input type="text" required placeholder="新しい要件を入力" . mg-model="newTitle">
+      <button type="submit">追加</button>
+      <!-- submitされると、新しいToDoが追加される-->
+    </form>
+
+    <hr>
+
+    <div>
+      <button>全て完了/未了</button>
+      <button ng-class="{active: !currentFilter}" ng-click="changeFilter()">全部<span>{{ allCount }}</span></button>
+      <button ng-class="{active: currentFilter == filter.remaining}" ng-click="changeFilter(filter.remaining)">未了<span>{{ remainingCount }}</span></button>
+      <button ng-class="{active: currentFilter == filter.done}" ng-click="changeFilter(filter.done)">完了<span>{{ doneCount }}</span></button>
+      <button>完了アイテムを全て削除</button>
+    </div>
+
+    <hr>
+
+    <ul>
+      <li class="todo-item" ng-repeat="todo in todos | filter:currentFilter" ng-class="{done: todo.done}">
+        <!-- li要素に対し、ndRepeatディレクティブの使用を宣言 -->
+        <!-- ngRepeatディレクティヴは、JSのfor...inのようなコレクションの列挙-->
+        <form>
+          <input type="checkbox" ng-model="todo.done">
+          <span class="todo-title">{{ todo.title() }}</span>
+          <!-- {{ }}を使ってモデルの要件を出力 -->
+          <button type="reset">削除</button>
+        </form>
+      </li>
+
+      <li class="todo-item editing">
+        <form>
+          <input type="checkbox">
+          <input type="text" required value="編集中の ToDo">
+        </form>
+      </li>
+    </ul>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular.min.js"></script>
+  <script src="app.js"></script>
+
+
+</body>
+</html>
